@@ -1,4 +1,3 @@
-/*Pinagem do arduino*/
 
 //motor_A
 int IN1 = 5 ;
@@ -43,8 +42,6 @@ void setup(){
 }
 
 void loop(){
-  //Serial.println(analogRead(ldr));
-
  
   float sensor_ldr;
  
@@ -54,23 +51,20 @@ void loop(){
 
   while (direita_ == 1 && centro_ == 1 && esquerda_ == 1){
     stop_car();
-    
-    
     sensor_ldr = analogRead(ldr);
+    return_flag( sensor_ldr);
 
-    while (1){
-      stop_car();
-      sensor_ldr = analogRead(ldr);
-      if (return_flag( sensor_ldr) == 1){
-        delay(3000);
-        break;
-      }
-    }
+    delay(3000);
     
     if (flag == 1){
       delay(300);
-      go_car(velocidadeA,  80, velocidadeB, 80 );
-      delay(650);
+      while(direita_ == 1 && centro_ == 1 && esquerda_ == 1){
+        direita_ = digitalRead(sensor_direita);
+        centro_ = digitalRead(sensor_centro);
+        esquerda_ = digitalRead(sensor_esquerda);
+        go_car(velocidadeA,  85, velocidadeB, 85 );
+      }
+
       break;
     }
   }
@@ -95,14 +89,12 @@ void loop(){
     go_car(velocidadeA,  velocidadeEsquerda, velocidadeB, velocidadeDireita );
 
     if (direita_ == 1 && centro_ == 1 && esquerda_ == 1){
-      stop_car();
       flag = 0;
       break;
     }
 
     
   }
- 
 
  delay(50);
 
